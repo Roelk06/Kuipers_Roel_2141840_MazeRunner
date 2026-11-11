@@ -1,1 +1,18 @@
-/Debug/
+# Eclipse CDT / C++ build outputs
+Debug/
+Release/
+bin/
+obj/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+
+# Eclipse workspace settings and caches
+.metadata/
+.settings/
+
+# OS artifacts
+Thumbs.db
+.DS_Store
