@@ -177,9 +177,9 @@ bool Game::hasWon(){
 void Game::writeSummary(ostream& out, string mode){
 	string result = "STOPPED";
 	if(won){
-		result = "WIN";
+		result = "BONFIRE LIT";
 	}else if(player.getLives() <= 0){
-		result = "LOSE";
+		result = "YOU DIED";
 	}
 	out << "        GAME OVER" << endl;
 	out << endl;
@@ -187,7 +187,7 @@ void Game::writeSummary(ostream& out, string mode){
 	out << "Result: " << result << endl;
 	out << endl;
 	out << "Score: " << player.getScore() << endl;
-	out << "Treasures collected: " << player.getTreasuresCollected() << "/" << NUM_TREASURES << endl;
+	out << "Souls collected: " << player.getTreasuresCollected() << "/" << NUM_TREASURES << endl;
 	out << "Lives remaining: " << player.getLives() << endl;
 	out << "Turns: " << turns << endl;
 }

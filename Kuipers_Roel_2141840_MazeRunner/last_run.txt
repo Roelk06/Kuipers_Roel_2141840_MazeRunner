@@ -1,9 +1,9 @@
         GAME OVER
 
 Mode: Human
-Result: WIN
+Result: BONFIRE LIT
 
 Score: 50
-Treasures collected: 5/5
+Souls collected: 5/5
 Lives remaining: 3
-Turns: 74
+Turns: 54

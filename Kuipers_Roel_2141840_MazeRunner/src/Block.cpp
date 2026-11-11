@@ -10,23 +10,26 @@ void Block::setSymbol(char symbol){
 	this->symbol = symbol;
 	this->label("");
 	this->labelcolor(FL_BLACK);
+
 	if(symbol == '#'){
-		this->color(fl_rgb_color(60, 60, 60));
+		this->color(fl_rgb_color(25, 25, 25));
 	}else if(symbol == 'P'){
-		this->color(fl_rgb_color(40, 90, 170));
+		this->color(fl_rgb_color(140, 140, 140));
 		this->labelcolor(FL_WHITE);
 		this->label("P");
 	}else if(symbol == 'T'){
-		this->color(fl_rgb_color(240, 200, 60));
-		this->label("T");
+		this->color(fl_rgb_color(248, 248, 255));
+		this->label("S");
 	}else if(symbol == 'E'){
-		this->color(fl_rgb_color(200, 50, 50));
-		this->label("E");
+		this->color(fl_rgb_color(180, 20, 20));
+		this->labelcolor(FL_WHITE);
+		this->label("I");
 	}else if(symbol == 'X'){
-		this->color(fl_rgb_color(46, 139, 87));
-		this->label("X");
+		this->color(fl_rgb_color(220, 90, 20));
+		this->labelcolor(FL_WHITE);
+		this->label("B");
 	}else{
-		this->color(FL_WHITE);
+		this->color(fl_rgb_color(40, 40, 45));
 	}
 	this->redraw();
 }

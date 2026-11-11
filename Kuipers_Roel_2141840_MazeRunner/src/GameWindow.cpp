@@ -18,7 +18,7 @@ void GameWindow::updateStatus(){
 	const Player& player = game.getPlayer();
 	string text = "Score: " + to_string(player.getScore())
                         + "     Lives: " + to_string(player.getLives())
-                        + "     Treasures: " + to_string(player.getTreasuresCollected())
+                        + "     Souls: " + to_string(player.getTreasuresCollected())
                         + "/" + to_string(NUM_TREASURES);
 	status->copy_label(text.c_str());
 
@@ -33,16 +33,25 @@ void GameWindow::updateStatus(){
 
 void GameWindow::showSummary(){
 	Player& player = game.getPlayer();
-	string result = "LOSE";
+	string result = "YOU DIED";
 	if(game.hasWon()){
-		result = "WIN";
+		result = "BONFIRE LIT";
 	}
-	string text = "GAME OVER\n\nMode: Human\nResult: " + result
-			+ "\n\nScore: " + to_string(player.getScore())
-			+ "\nTreasures collected: " + to_string(player.getTreasuresCollected()) + " /5"
-			+ "\nLives remaining" + to_string(player.getLives())
-			+ "\nTurns: " + to_string(game.getTurns());
+	string text = result + "\n\n"
+			+ "Mode: Human\n\n"
+			+ "Score: " + to_string(player.getScore()) + "\n"
+			+ "Souls collected: " + to_string(player.getTreasuresCollected()) + "/5\n"
+			+ "Lives remaining " + to_string(player.getLives()) + "\n"
+			+ "Turns: " + to_string(game.getTurns());
 	summary->copy_label(text.c_str());
+	summary->color(fl_rgb_color(25, 25, 25));
+
+	if(game.hasWon()){
+		summary->labelcolor(fl_rgb_color(255, 170, 40));
+	}else{
+		summary->labelcolor(fl_rgb_color(180, 20, 20));
+	}
+
 	summary->show();
 
 	ofstream file("last_run.txt");
