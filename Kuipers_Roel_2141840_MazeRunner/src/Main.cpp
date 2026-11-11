@@ -1,7 +1,5 @@
 // name: Main.cpp
 #include <iostream>
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
 #include "Game.h"
 #include "GameWindow.h"
 #include "cstdlib"

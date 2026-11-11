@@ -1,7 +1,6 @@
 #ifndef GRID_H_
 #define GRID_H_
 
-#include <FL/Fl_Box.H>
 #include "Block.h"
 #include "Game.h"
 

@@ -4,7 +4,6 @@
 #include "Maze.h"
 #include "Player.h"
 #include "Enemy.h"
-#include <iostream>
 
 class Game{
 	private:

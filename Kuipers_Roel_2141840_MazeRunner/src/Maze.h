@@ -1,9 +1,9 @@
 #ifndef MAZE_H_
 #define MAZE_H_
 
-#include <string>
-using namespace std;
+#include <fstream>
 #include "Position.h"
+using namespace std;
 
 const int SIZE = 20;
 const int NUM_TREASURES = 5;

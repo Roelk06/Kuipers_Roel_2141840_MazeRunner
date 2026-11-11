@@ -1,5 +1,4 @@
 // name: Character.cpp
-
 #include "Character.h"
 
 Character::Character(){

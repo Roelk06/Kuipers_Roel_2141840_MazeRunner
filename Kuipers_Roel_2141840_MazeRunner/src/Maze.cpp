@@ -1,8 +1,5 @@
 // name: Maze.cpp
-#include <fstream>
-#include <iostream>
 #include "Maze.h"
-using namespace std;
 
 void Maze::load(const string& filename){
 	ifstream file(filename);
@@ -80,6 +77,9 @@ Position Maze::getPlayerStart() const{
 	return playerStart;
 }
 
+Position Maze::getEnemyStart(int index) {
+    return enemyStarts[index];
+}
 
 char Maze::getSymbol(int row, int col) const{
 	return grid[row][col];
@@ -99,10 +99,6 @@ bool Maze::isTreasure(Position position){
 
 void Maze::removeTreasure(Position position){
 	grid[position.row][position.col] = '.';
-}
-
-Position Maze::getEnemyStart(int index) {
-    return enemyStarts[index];
 }
 
 bool Maze::isExit(Position position){
