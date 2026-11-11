@@ -6,4 +6,4 @@ Result: WIN
 Score: 50
 Treasures collected: 5/5
 Lives remaining: 3
-Turns: 122
+Turns: 74
