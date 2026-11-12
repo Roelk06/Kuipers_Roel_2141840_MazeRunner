@@ -85,7 +85,7 @@ void Game::collectTreasure(){
 	if(maze.isTreasure(position)){
 		maze.removeTreasure(position);
 		player.collectTreasure();
-		message = "Treasure collected, 10 points for you!";
+		message = "Souls collected, 10 points for you!";
 	}
 }
 
