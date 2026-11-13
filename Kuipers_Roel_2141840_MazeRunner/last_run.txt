@@ -6,4 +6,4 @@ Result: YOU LOSE
 Score: 0
 Treasure collected: 0/5
 Lives remaining: 0
-Turns: 33
+Turns: 79

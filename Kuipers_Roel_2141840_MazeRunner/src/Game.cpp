@@ -152,7 +152,7 @@ void Game::moveEnemy(Enemy& enemy, bool isSmart){
 		}
 	}
 	if(count>0){
-		if(isSmart){
+		if(isSmart && (rand() % 100 < 75)){
 			Position playerPos = player.getPosition();
 			int bestIndex = 0;
 			int minDistance = 999;
