@@ -28,7 +28,8 @@ bool Game::playTurn(char direction){
 
 	if(!won){
 		for(int i=0; i<NUM_ENEMIES; i++){
-			moveEnemy(enemies[i]);
+			bool isSmart = (i==0);
+			moveEnemy(enemies[i], isSmart);
 			checkCollision();
 		}
 	}
@@ -131,7 +132,11 @@ bool Game::canEnemyMoveTo(Position position){
 
 }
 
-void Game::moveEnemy(Enemy& enemy){
+int getDistance(Position a, Position b){
+	return abs(a.row - b.row) + abs(a.col - b.col);
+}
+
+void Game::moveEnemy(Enemy& enemy, bool isSmart){
 	int rowSteps[4] = {-1, 1, 0, 0};
 	int colSteps[4] = {0, 0, -1, 1};
 	Position options[4];
@@ -147,7 +152,22 @@ void Game::moveEnemy(Enemy& enemy){
 		}
 	}
 	if(count>0){
-		enemy.setPosition(options[rand() % count]);
+		if(isSmart){
+			Position playerPos = player.getPosition();
+			int bestIndex = 0;
+			int minDistance = 999;
+
+			for(int i=0; i<count; i++){
+				int dist = getDistance(options[i], playerPos);
+				if(dist < minDistance){
+					minDistance = dist;
+					bestIndex = i;
+				}
+			}
+			enemy.setPosition(options[bestIndex]);
+		}else{
+			enemy.setPosition(options[rand() % count]);
+		}
 	}
 }
 

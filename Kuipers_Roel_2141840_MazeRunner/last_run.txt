@@ -1,9 +1,9 @@
         GAME OVER
 
 Mode: Human
-Result: YOU WIN
+Result: YOU LOSE
 
-Score: 50
-Treasure collected: 5/5
-Lives remaining: 3
-Turns: 52
+Score: 0
+Treasure collected: 0/5
+Lives remaining: 0
+Turns: 33

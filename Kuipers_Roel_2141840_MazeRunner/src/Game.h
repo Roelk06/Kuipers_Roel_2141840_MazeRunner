@@ -4,6 +4,7 @@
 #include "Maze.h"
 #include "Player.h"
 #include "Enemy.h"
+#include <cmath>
 
 class Game{
 	private:
@@ -18,7 +19,7 @@ class Game{
 		void collectTreasure();
 		bool isEnemyAt(Position position) const;
 		bool canEnemyMoveTo(Position position);
-		void moveEnemy(Enemy& enemy);
+		void moveEnemy(Enemy& enemy, bool isSmart);
 		void checkCollision();
 		void checkExit();
 	public:
