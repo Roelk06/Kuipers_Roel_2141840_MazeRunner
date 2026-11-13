@@ -1,14 +1,14 @@
 // name: GameWindow.cpp
 #include "GameWindow.h"
 
-GameWindow::GameWindow(Game& game): Fl_Window(100, 100, 640, 680, "MazeRunner"), game(game){
+GameWindow::GameWindow(Game& game): Fl_Window(100, 100, 640, 710, "MazeRunner"), game(game){
 	grid = new Grid(20, 20, game);
 	status = new Fl_Box(20, 630, GRID_SIZE, 35);
 	status->labelfont(FL_BOLD);
 	message = new Fl_Box(20, 660, GRID_SIZE, 35);
 	summary = new Fl_Box(140, 170, 360, 300);
 	summary->box(FL_BORDER_BOX);
-	summary->color(FL_WHITE);
+	summary->color(fl_rgb_color(30, 30, 30));
 	summary->labelsize(18);
 	summary->hide();
 	end();
@@ -18,7 +18,7 @@ void GameWindow::updateStatus(){
 	const Player& player = game.getPlayer();
 	string text = "Score: " + to_string(player.getScore())
                         + "     Lives: " + to_string(player.getLives())
-                        + "     Souls: " + to_string(player.getTreasuresCollected())
+                        + "     Treasure: " + to_string(player.getTreasuresCollected())
                         + "/" + to_string(NUM_TREASURES);
 	status->copy_label(text.c_str());
 
@@ -33,25 +33,24 @@ void GameWindow::updateStatus(){
 
 void GameWindow::showSummary(){
 	Player& player = game.getPlayer();
-	string result = "YOU DIED";
+	string result = "YOU LOSE";
 	if(game.hasWon()){
-		result = "BONFIRE LIT";
+		result = "YOU WIN";
 	}
 	string text = result + "\n\n"
 			+ "Mode: Human\n\n"
 			+ "Score: " + to_string(player.getScore()) + "\n"
-			+ "Souls collected: " + to_string(player.getTreasuresCollected()) + "/5\n"
+			+ "Treasure collected: " + to_string(player.getTreasuresCollected()) + "/5\n"
 			+ "Lives remaining " + to_string(player.getLives()) + "\n"
 			+ "Turns: " + to_string(game.getTurns());
-	summary->copy_label(text.c_str());
-	summary->color(fl_rgb_color(25, 25, 25));
 
 	if(game.hasWon()){
-		summary->labelcolor(fl_rgb_color(255, 170, 40));
+		summary->labelcolor(fl_rgb_color(0, 255, 150));
 	}else{
-		summary->labelcolor(fl_rgb_color(180, 20, 20));
+		summary->labelcolor(fl_rgb_color(255, 0, 100));
 	}
 
+	summary->copy_label(text.c_str());
 	summary->show();
 
 	ofstream file("last_run.txt");

@@ -85,7 +85,7 @@ void Game::collectTreasure(){
 	if(maze.isTreasure(position)){
 		maze.removeTreasure(position);
 		player.collectTreasure();
-		message = "Souls collected, 10 points for you!";
+		message = "Treasure collected, 10 points for you!";
 	}
 }
 
@@ -177,9 +177,9 @@ bool Game::hasWon(){
 void Game::writeSummary(ostream& out, string mode){
 	string result = "STOPPED";
 	if(won){
-		result = "BONFIRE LIT";
+		result = "YOU WIN";
 	}else if(player.getLives() <= 0){
-		result = "YOU DIED";
+		result = "YOU LOSE";
 	}
 	out << "        GAME OVER" << endl;
 	out << endl;
@@ -187,7 +187,7 @@ void Game::writeSummary(ostream& out, string mode){
 	out << "Result: " << result << endl;
 	out << endl;
 	out << "Score: " << player.getScore() << endl;
-	out << "Souls collected: " << player.getTreasuresCollected() << "/" << NUM_TREASURES << endl;
+	out << "Treasure collected: " << player.getTreasuresCollected() << "/" << NUM_TREASURES << endl;
 	out << "Lives remaining: " << player.getLives() << endl;
 	out << "Turns: " << turns << endl;
 }
