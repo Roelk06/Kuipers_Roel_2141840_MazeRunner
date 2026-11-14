@@ -68,6 +68,50 @@ void Maze::validate(){
 	}
 }
 
+void Maze::carvePaths(Position position){
+	grid[position.row][position.col] = '.';
+
+
+}
+
+void Maze::generate(){
+	for(int r=0; r<SIZE; r++){
+		for(int c=0; r<SIZE; c++){
+			grid[r][c] = '#';
+		}
+	}
+
+	carvePaths(1, 1);
+
+	vector<Position> emptyCells;
+	for(int r=0; r<SIZE; r++){
+		for(int c=0; r<SIZE; c++){
+			if(grid[r][c] == '.'){
+				emptyCells.push_back({r, c});
+			}
+		}
+	}
+
+	shuffle(emptyCells.begin(), emptyCells.end());
+
+	int index = 0;
+	playerStart = emptyCells[index++];
+	grid[playerStart.row][playerStart.col] = 'P';
+
+	Position exitPos = emptyCells[index++];
+	grid[exitPos.row][exitPos.col] = 'X';
+
+	for(int i=0; i<5; i++){
+		Position t = emptyCells[index++];
+		grid[t.row][t.col] = 'T';
+	}
+
+	for(int i=0; i<3; i++){
+		enemyStarts[i] = emptyCells[index++];
+		grid[enemyStarts[i].row][enemyStarts[i].col] = 'E';
+	}
+}
+
 Maze::Maze(){
 	playerStart.row = 0;
 	playerStart.col = 0;

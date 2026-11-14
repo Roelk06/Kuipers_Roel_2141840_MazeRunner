@@ -155,7 +155,7 @@ void Game::moveEnemy(Enemy& enemy, bool isSmart){
 		if(isSmart && (rand() % 100 < 75)){
 			Position playerPos = player.getPosition();
 			int bestIndex = 0;
-			int minDistance = 999;
+			int minDistance = 9999;
 
 			for(int i=0; i<count; i++){
 				int dist = getDistance(options[i], playerPos);

@@ -2,6 +2,9 @@
 #define MAZE_H_
 
 #include <fstream>
+#include <vector>
+#include <algorithm>
+#include <random>
 #include "Position.h"
 using namespace std;
 
@@ -15,9 +18,11 @@ class Maze{
 		Position playerStart;
 		Position enemyStarts[NUM_ENEMIES];
 		void validate();
+		void carvePaths(Position position);
 	public:
 		Maze();
 		void load(const string& filename);
+		void generate();
 		void print() const;
 		Position getPlayerStart() const;
 		Position getEnemyStart(int index);
