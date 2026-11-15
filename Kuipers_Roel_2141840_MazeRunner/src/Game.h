@@ -25,6 +25,7 @@ class Game{
 	public:
 		Game();
 		void load(const string& filename);
+		void generate();
 		bool playTurn(char direction);
 		char getSymbol(int row, int col) const;
 		Player& getPlayer();

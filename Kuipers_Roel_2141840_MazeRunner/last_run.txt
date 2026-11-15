@@ -5,5 +5,5 @@ Result: YOU WIN
 
 Score: 50
 Treasure collected: 5/5
-Lives remaining: 3
-Turns: 54
+Lives remaining: 2
+Turns: 59

@@ -16,6 +16,15 @@ void Game::load(const string& filename){
 	message = "";
 }
 
+void Game::generate(){
+	maze.generate();
+	player.setPosition(maze.getPlayerStart());
+	for(int i=0; i<NUM_ENEMIES; i++){
+		enemies[i].setPosition(maze.getEnemyStart(i));
+	}
+	message = "";
+}
+
 bool Game::playTurn(char direction){
 	message = "";
 	if(!movePlayer(direction)){

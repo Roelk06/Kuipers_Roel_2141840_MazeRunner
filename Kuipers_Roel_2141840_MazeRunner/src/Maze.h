@@ -3,10 +3,12 @@
 
 #include <fstream>
 #include <vector>
-#include <algorithm>
 #include <random>
 #include "Position.h"
 using namespace std;
+
+
+#include <iostream>
 
 const int SIZE = 20;
 const int NUM_TREASURES = 5;
@@ -18,7 +20,7 @@ class Maze{
 		Position playerStart;
 		Position enemyStarts[NUM_ENEMIES];
 		void validate();
-		void carvePaths(Position position);
+		void carvePaths(int r , int c);
 	public:
 		Maze();
 		void load(const string& filename);

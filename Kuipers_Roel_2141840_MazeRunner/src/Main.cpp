@@ -2,23 +2,34 @@
 #include <iostream>
 #include "Game.h"
 #include "GameWindow.h"
-#include "cstdlib"
-#include "ctime"
-
 
 int main(){
-	srand(time(0));
-
 	Game game;
-	    try {
-	        game.load("maze.txt");
-	    } catch (string& message) {
-	        cerr << "Invalid maze: " << message << endl;
-	        return 1;
-	    }
 
-	    GameWindow* window = new GameWindow(game);
-	    window->show();
-	    return Fl::run();
+	cout << "1. Load maze from a file" << endl;
+	cout << "2. Generate a maze" << endl;
+	cout << "Choose either 1 or 2" << endl;
+
+	int choice;
+	cin >> choice;
+
+	if(choice == 1){
+		string filename;
+		cout << "Enter filename:" << endl;
+		cin >> filename;
+		try{
+			game.load(filename);
+		}catch(const string& message){
+			cerr << "Invalid maze: " << message << endl;
+			return 1;
+		}
+	}else{
+		cout << "Generating a maze..." << endl;
+		game.generate();
+	}
+
+	GameWindow* window = new GameWindow(game);
+	window->show();
+	return Fl::run();
 }
 

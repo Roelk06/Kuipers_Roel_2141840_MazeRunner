@@ -68,31 +68,69 @@ void Maze::validate(){
 	}
 }
 
-void Maze::carvePaths(Position position){
-	grid[position.row][position.col] = '.';
+void Maze::carvePaths(int r , int c){
+	grid[r][c] = '.';
 
+	int rowSteps[4] = {-2, 2, 0, 0};
+	int colSteps[4] = {0, 0, -2, 2};
+	int directions[4] = {0, 1, 2, 3};
 
+	for(int i=3; i>0; --i){
+		int j = rand() % (i + 1);
+		int temp = directions[i];
+		directions[i] = directions[j];
+		directions[j] = temp;
+	}
+
+	for(int i=0; i<4; i++){
+		int dir = directions[i];
+		int nextRow = r + rowSteps[dir];
+		int nextCol = c + colSteps[dir];
+
+		if(nextRow > 0 && nextRow < SIZE - 1 && nextCol > 0 && nextCol < SIZE - 1){
+			if(grid[nextRow][nextCol] == '#'){
+				grid[r + rowSteps[dir] / 2][c + colSteps[dir] / 2] = '.';
+				carvePaths(nextRow, nextCol);
+			}
+		}
+	}
 }
 
 void Maze::generate(){
 	for(int r=0; r<SIZE; r++){
-		for(int c=0; r<SIZE; c++){
+		for(int c=0; c<SIZE; c++){
 			grid[r][c] = '#';
 		}
 	}
 
-	//carvePaths(1, 1);
+	carvePaths(1, 1);
+
+	for(int r=0; r<SIZE; r++){
+		for(int c=0; c<SIZE; c++){
+			if(grid[r][c] == '#'){
+				if(rand() % 100 < 35){
+					grid[r][c] = '.';
+				}
+			}
+		}
+	}
 
 	vector<Position> emptyCells;
 	for(int r=0; r<SIZE; r++){
-		for(int c=0; r<SIZE; c++){
+		for(int c=0; c<SIZE; c++){
 			if(grid[r][c] == '.'){
 				emptyCells.push_back({r, c});
 			}
 		}
 	}
 
-	//shuffle(emptyCells.begin(), emptyCells.end());
+	int n = emptyCells.size();
+	for(int i=n-1; i>0; --i){
+		int j = rand() % (i + 1);
+		Position temp = emptyCells[i];
+		emptyCells[i] = emptyCells[j];
+		emptyCells[j] = temp;
+	}
 
 	int index = 0;
 	playerStart = emptyCells[index++];
@@ -109,6 +147,11 @@ void Maze::generate(){
 	for(int i=0; i<3; i++){
 		enemyStarts[i] = emptyCells[index++];
 		grid[enemyStarts[i].row][enemyStarts[i].col] = 'E';
+	}
+
+	grid[playerStart.row][playerStart.col] = '.';
+	for (int i = 0; i < 3; i++){
+		grid[enemyStarts[i].row][enemyStarts[i].col] = '.';
 	}
 }
 
