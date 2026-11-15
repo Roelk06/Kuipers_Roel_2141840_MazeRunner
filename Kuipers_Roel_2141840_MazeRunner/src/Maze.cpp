@@ -81,7 +81,7 @@ void Maze::generate(){
 		}
 	}
 
-	carvePaths(1, 1);
+	//carvePaths(1, 1);
 
 	vector<Position> emptyCells;
 	for(int r=0; r<SIZE; r++){
@@ -92,7 +92,7 @@ void Maze::generate(){
 		}
 	}
 
-	shuffle(emptyCells.begin(), emptyCells.end());
+	//shuffle(emptyCells.begin(), emptyCells.end());
 
 	int index = 0;
 	playerStart = emptyCells[index++];
