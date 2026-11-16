@@ -2,8 +2,11 @@
 #include <iostream>
 #include "Game.h"
 #include "GameWindow.h"
+#include <ctime>
+#include <cstdlib>
 
 int main(){
+	srand(time(0));
 	Game game;
 
 	cout << "1. Load maze from a file" << endl;
