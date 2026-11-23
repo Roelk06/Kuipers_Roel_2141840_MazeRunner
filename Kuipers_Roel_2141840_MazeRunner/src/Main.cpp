@@ -13,10 +13,12 @@ int main(){
 	cout << "2. Generate a maze" << endl;
 	cout << "Choose either 1 or 2" << endl;
 
-	int choice;
-	cin >> choice;
+	int mazeChoice;
+	cin >> mazeChoice;
 
-	if(choice == 1){
+
+
+	if(mazeChoice == 1){
 		string filename;
 		cout << "Enter filename:" << endl;
 		cin >> filename;
@@ -31,7 +33,15 @@ int main(){
 		game.generate();
 	}
 
-	GameWindow* window = new GameWindow(game);
+	cout << "1. Human mode" << endl;
+	cout << "2. AI mode" << endl;
+	cout << "Choose either 1 or 2" << endl;
+
+	int modeChoice;
+	cin >> modeChoice;
+	bool aiMode = (modeChoice == 2);
+
+	GameWindow* window = new GameWindow(game, aiMode);
 	window->show();
 	return Fl::run();
 }

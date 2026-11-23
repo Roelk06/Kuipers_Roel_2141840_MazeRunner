@@ -1,14 +1,13 @@
 #ifndef MAZE_H_
 #define MAZE_H_
 
+#include <iostream>
 #include <fstream>
 #include <vector>
 #include <random>
 #include "Position.h"
 using namespace std;
 
-
-#include <iostream>
 
 const int SIZE = 20;
 const int NUM_TREASURES = 5;

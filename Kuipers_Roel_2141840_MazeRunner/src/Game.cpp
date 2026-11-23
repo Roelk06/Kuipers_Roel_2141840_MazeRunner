@@ -90,6 +90,10 @@ char Game::getSymbol(int row, int col) const{
 	return maze.getSymbol(row, col);
 }
 
+char Game::getMazeSymbol(int row, int col) const{
+	return maze.getSymbol(row, col);
+}
+
 void Game::collectTreasure(){
 	Position position = player.getPosition();
 	if(maze.isTreasure(position)){

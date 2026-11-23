@@ -17,7 +17,6 @@ class Game{
 		Position nextPosition(char direction);
 		bool movePlayer(char direction);
 		void collectTreasure();
-		bool isEnemyAt(Position position) const;
 		bool canEnemyMoveTo(Position position);
 		void moveEnemy(Enemy& enemy, bool isSmart);
 		void checkCollision();
@@ -28,6 +27,8 @@ class Game{
 		void generate();
 		bool playTurn(char direction);
 		char getSymbol(int row, int col) const;
+		char getMazeSymbol(int row, int col) const;
+		bool isEnemyAt(Position position) const;
 		Player& getPlayer();
 		string getMessage();
 		int getTurns();

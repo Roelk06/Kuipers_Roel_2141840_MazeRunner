@@ -1,7 +1,7 @@
 // name: GameWindow.cpp
 #include "GameWindow.h"
 
-GameWindow::GameWindow(Game& game): Fl_Window(100, 100, 640, 710, "MazeRunner"), game(game){
+GameWindow::GameWindow(Game& game, bool aiMode): Fl_Window(100, 100, 640, 710, "MazeRunner"), game(game), aiMode(aiMode){
 	grid = new Grid(20, 20, game);
 	status = new Fl_Box(20, 630, GRID_SIZE, 35);
 	status->labelfont(FL_BOLD);
@@ -12,6 +12,33 @@ GameWindow::GameWindow(Game& game): Fl_Window(100, 100, 640, 710, "MazeRunner"),
 	summary->labelsize(18);
 	summary->hide();
 	end();
+	updateStatus();
+
+	if(aiMode){
+		Fl::add_timeout(0.15, aiTimerCallback, this);
+	}
+}
+
+void GameWindow::aiTimerCallback(void* userdata){
+	GameWindow* window = static_cast<GameWindow*>(userdata);
+	window->stepAI();
+}
+
+void GameWindow::stepAI(){
+	if(game.isOver()){
+		return;
+	}
+
+	char move = ai.getNextMove(game);
+	game.playTurn(move);
+	grid->update(game);
+	updateStatus();
+
+	if(game.isOver()){
+		showSummary();
+	}else{
+		Fl::repeat_timeout(0.15, aiTimerCallback, this);
+	}
 }
 
 void GameWindow::updateStatus(){
@@ -26,19 +53,19 @@ void GameWindow::updateStatus(){
 		message->copy_label("GAME OVER!");
 	}else if(game.getMessage() != ""){
 		message->copy_label(game.getMessage().c_str());
+	}else if(aiMode){
+		message->copy_label("AI mode running...");
 	}else{
-		 message->copy_label("Move with WASD");
+		message->copy_label("Move with WASD");
 	}
 }
 
 void GameWindow::showSummary(){
 	Player& player = game.getPlayer();
-	string result = "YOU LOSE";
-	if(game.hasWon()){
-		result = "YOU WIN";
-	}
+	string result = game.hasWon() ? "YOU WIN" : "YOU LOSE";
+	string mode = aiMode ? "AI" : "Human";
 	string text = result + "\n\n"
-			+ "Mode: Human\n\n"
+			+ "Mode: " + mode + "\n\n"
 			+ "Score: " + to_string(player.getScore()) + "\n"
 			+ "Treasure collected: " + to_string(player.getTreasuresCollected()) + "/5\n"
 			+ "Lives remaining " + to_string(player.getLives()) + "\n"
@@ -60,7 +87,7 @@ void GameWindow::showSummary(){
 }
 
 int GameWindow::handle(int event){
-	if(event == FL_KEYDOWN){
+	if(!aiMode && event == FL_KEYDOWN){
 		int key = Fl::event_key();
 		if(key == 'w' || key == 'a' || key == 's' || key == 'd'){
 			if(!game.isOver()){
