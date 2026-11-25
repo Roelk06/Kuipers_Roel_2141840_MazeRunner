@@ -145,7 +145,7 @@ bool Game::canEnemyMoveTo(Position position){
 
 }
 
-int getDistance(Position a, Position b){
+int Game::getDistance(Position a, Position b){
 	return abs(a.row - b.row) + abs(a.col - b.col);
 }
 

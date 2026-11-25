@@ -5,6 +5,9 @@
 #include <fstream>
 #include <vector>
 #include <random>
+#include <queue>
+#include <cstdlib>
+#include <cmath>
 #include "Position.h"
 using namespace std;
 
@@ -19,7 +22,8 @@ class Maze{
 		Position playerStart;
 		Position enemyStarts[NUM_ENEMIES];
 		void validate();
-		void carvePaths(int r , int c);
+		vector<Position> collectReachableCells(Position start);
+		int getDistance(Position a, Position b);
 	public:
 		Maze();
 		void load(const string& filename);

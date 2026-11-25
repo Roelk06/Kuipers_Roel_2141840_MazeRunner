@@ -68,90 +68,157 @@ void Maze::validate(){
 	}
 }
 
-void Maze::carvePaths(int r , int c){
-	grid[r][c] = '.';
+int Maze::getDistance(Position a, Position b){
+	return abs(a.row - b.row) + abs(a.col - b.col);
+}
 
-	int rowSteps[4] = {-2, 2, 0, 0};
-	int colSteps[4] = {0, 0, -2, 2};
-	int directions[4] = {0, 1, 2, 3};
+vector<Position> Maze::collectReachableCells(Position start){
+	vector<Position> reachable;
+	bool visited[SIZE][SIZE] = {false};
+	queue<Position> q;
 
-	for(int i=3; i>0; --i){
-		int j = rand() % (i + 1);
-		int temp = directions[i];
-		directions[i] = directions[j];
-		directions[j] = temp;
-	}
+	visited[start.row][start.col] = true;
+	q.push(start);
 
-	for(int i=0; i<4; i++){
-		int dir = directions[i];
-		int nextRow = r + rowSteps[dir];
-		int nextCol = c + colSteps[dir];
+	int dRow[4] = {-1, 1, 0, 0};
+	int dCol[4] = {0, 0, -1, 1};
 
-		if(nextRow > 0 && nextRow < SIZE - 1 && nextCol > 0 && nextCol < SIZE - 1){
-			if(grid[nextRow][nextCol] == '#'){
-				grid[r + rowSteps[dir] / 2][c + colSteps[dir] / 2] = '.';
-				carvePaths(nextRow, nextCol);
+	while(!q.empty()){
+		Position current = q.front();
+		q.pop();
+		reachable.push_back(current);
+
+		for(int i=0; i<4; i++){
+			int nRow = current.row + dRow[i];
+			int nCol = current.col + dCol[i];
+
+			if(nRow > 0 && nRow < SIZE - 1 && nCol > 0 && nCol < SIZE - 1 && !visited[nRow][nCol] && grid[nRow][nCol] == '.'){
+				visited[nRow][nCol] = true;
+				q.push({nRow, nCol});
 			}
 		}
 	}
-}
 
-void Maze::generate(){
-	for(int r=0; r<SIZE; r++){
-		for(int c=0; c<SIZE; c++){
-			grid[r][c] = '#';
+	for(int r=1; r<SIZE - 1; r++){
+		for(int c=1; c<SIZE - 1; c++){
+			if(grid[r][c] == '.' && !visited[r][c]){
+				grid[r][c] = '#';
+			}
 		}
 	}
 
-	carvePaths(1, 1);
+	return reachable;
+}
 
-	for(int r=0; r<SIZE; r++){
-		for(int c=0; c<SIZE; c++){
-			if(grid[r][c] == '#'){
-				if(rand() % 100 < 35){
+void Maze::generate(){
+	vector<Position> emptyCells;
+	int dRow[4] = {-1, 1, 0, 0};
+	int dCol[4] = {0, 0, -1, 1};
+
+	do{
+		for(int r=0; r<SIZE; r++){
+			for(int c=0; c<SIZE; c++){
+				if(r == 0 || r == SIZE - 1 || c == 0 || c == SIZE - 1){
+					grid[r][c] = '#';
+				}else{
 					grid[r][c] = '.';
 				}
 			}
 		}
-	}
 
-	vector<Position> emptyCells;
-	for(int r=0; r<SIZE; r++){
-		for(int c=0; c<SIZE; c++){
-			if(grid[r][c] == '.'){
-				emptyCells.push_back({r, c});
+		for(int r=1; r<SIZE - 1; r++){
+			for(int c=1; c<SIZE - 1; c++){
+				if(rand() % 100 < 15){
+					grid[r][c] = '#';
+					if(rand() % 100 < 50){
+						int dir = rand() % 4;
+						int nRow = r + dRow[dir];
+						int nCol = c + dCol[dir];
+						if(nRow > 0 && nRow < SIZE - 1 && nCol > 0 && nCol < SIZE - 1){
+							grid[nRow][nCol] = '#';
+						}
+					}
+				}
 			}
 		}
-	}
+
+		grid[1][1] = '.';
+		emptyCells = collectReachableCells({1, 1});
+
+	}while(emptyCells.size() < 100);
 
 	int n = emptyCells.size();
-	for(int i=n-1; i>0; --i){
+	for(int i = n - 1; i>0; --i){
 		int j = rand() % (i + 1);
 		Position temp = emptyCells[i];
 		emptyCells[i] = emptyCells[j];
 		emptyCells[j] = temp;
 	}
 
-	int index = 0;
-	playerStart = emptyCells[index++];
-	grid[playerStart.row][playerStart.col] = 'P';
+	vector<bool> used(n, false);
 
-	Position exitPos = emptyCells[index++];
-	grid[exitPos.row][exitPos.col] = 'X';
+	playerStart = emptyCells[0];
+	used[0] = true;
 
-	for(int i=0; i<5; i++){
-		Position t = emptyCells[index++];
-		grid[t.row][t.col] = 'T';
+	int exitIdx = -1;
+	int maxDist = -1;
+	for(int i=0; i<n; i++){
+		if(used[i]) continue;
+		int d = getDistance(emptyCells[i], playerStart);
+		if(d >= 12){
+			exitIdx = i;
+			break;
+		}
+		if(d > maxDist){
+			maxDist = d;
+			exitIdx = i;
+		}
+	}
+	used[exitIdx] = true;
+	grid[emptyCells[exitIdx].row][emptyCells[exitIdx].col] = 'X';
+
+	vector<Position> placedTreasures;
+	for(int t=0; t < NUM_TREASURES; t++){
+		int pickIdx = -1;
+		for(int i=0; i<n; i++){
+			if(used[i]) continue;
+			bool wellSpaced = true;
+			for(const Position& other : placedTreasures){
+				if(getDistance(emptyCells[i], other) < 4){
+					wellSpaced = false;
+					break;
+				}
+			}
+			if(wellSpaced){
+				pickIdx = i;
+				break;
+			}
+		}
+		if(pickIdx == -1){
+			for(int i=0; i<n; i++){
+				if(!used[i]) {pickIdx = i; break;}
+			}
+		}
+		used[pickIdx] = true;
+		placedTreasures.push_back(emptyCells[pickIdx]);
+		grid[emptyCells[pickIdx].row][emptyCells[pickIdx].col] = 'T';
 	}
 
-	for(int i=0; i<3; i++){
-		enemyStarts[i] = emptyCells[index++];
-		grid[enemyStarts[i].row][enemyStarts[i].col] = 'E';
-	}
-
-	grid[playerStart.row][playerStart.col] = '.';
-	for (int i = 0; i < 3; i++){
-		grid[enemyStarts[i].row][enemyStarts[i].col] = '.';
+	for(int e=0; e<NUM_ENEMIES; e++){
+		int pickIdx = -1;
+		for(int i=0; i<n; i++){
+			if(!used[i] && getDistance(emptyCells[i], playerStart) >= 5){
+				pickIdx = i;
+				break;
+			}
+		}
+		if(pickIdx == -1){
+			for(int i=0; i<n; i++){
+				if(!used[i]) {pickIdx = i; break;}
+			}
+		}
+		used[pickIdx] = true;
+		enemyStarts[e] = emptyCells[pickIdx];
 	}
 }
 

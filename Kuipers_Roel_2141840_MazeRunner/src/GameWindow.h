@@ -4,7 +4,6 @@
 #include <FL/Fl_Window.h>
 #include "AI.h"
 #include "Grid.h"
-#include <fstream>
 
 class GameWindow: public Fl_Window{
 	private:
