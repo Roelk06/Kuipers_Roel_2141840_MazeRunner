@@ -1,11 +1,11 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra $(shell fltk-config --cxxflags)
-LDFLAGS = $(shell fltk-config --ldflags)
+LDFLAGS = $(shell fltk-config --ldflags) -mconsole
 
 TARGET = MazeRunner
 SRC_DIR = src
 
-SRCS = $(SRC_DIR)/main.cpp \
+SRCS = $(SRC_DIR)/Main.cpp \
        $(SRC_DIR)/Maze.cpp \
        $(SRC_DIR)/Character.cpp \
        $(SRC_DIR)/Player.cpp \
